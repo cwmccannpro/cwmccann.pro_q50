@@ -1,12 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type MouseEvent, type ReactNode } from 'react'
-
-const navItems = [
-  ['About', '#about'],
-  ['Work', '#work'],
-  ['Experience', '#experience'],
-  ['Building', '#building'],
-  ['Contact', '#contact'],
-] as const
+import SiteNav from './SiteNav'
 
 const courses = [
   ['MTH 141', 'College Calculus I'], ['MTH 142', 'College Calculus II'],
@@ -92,15 +85,7 @@ function Artifact({ kind }: { kind: 'confuzed' }) {
 function App() {
   const stageRef = useRef<HTMLElement>(null)
   const [fold, setFold] = useState(0)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(false)
-
-  useEffect(() => {
-    const mobile = window.matchMedia('(max-width: 780px)')
-    const closeOnDesktop = () => { if (!mobile.matches) setMenuOpen(false) }
-    mobile.addEventListener('change', closeOnDesktop)
-    return () => mobile.removeEventListener('change', closeOnDesktop)
-  }, [])
 
   useEffect(() => {
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -118,6 +103,15 @@ function App() {
       setFold(raw)
     }
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update) }
+    if (window.location.hash === '#about' && stageRef.current) {
+      const stage = stageRef.current
+      window.scrollTo({
+        top: stage.offsetTop + Math.max(stage.offsetHeight - window.innerHeight, 0) * 0.9,
+        behavior: 'instant',
+      })
+    } else if (['#work', '#experience', '#building', '#contact'].includes(window.location.hash)) {
+      document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ behavior: 'instant', block: 'start' })
+    }
     update()
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onScroll)
@@ -137,13 +131,6 @@ function App() {
     return () => observer.disconnect()
   }, [])
 
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') setMenuOpen(false) }
-    window.addEventListener('keydown', onKey)
-    document.body.classList.toggle('menu-open', menuOpen)
-    return () => { window.removeEventListener('keydown', onKey); document.body.classList.remove('menu-open') }
-  }, [menuOpen])
-
   const progress = Math.min(fold / 0.9, 1)
   const crease = Math.min(progress / 0.62, 1)
   const creaseEase = (1 - Math.cos(crease * Math.PI)) / 2
@@ -159,9 +146,7 @@ function App() {
     '--crease-opacity': reducedMotion ? 0 : Math.sin(progress * Math.PI) * 0.5,
   } as CSSProperties
 
-  const closeMenu = () => setMenuOpen(false)
   const navigateToSection = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
-    closeMenu()
     if (href !== '#about' || !stageRef.current) return
     event.preventDefault()
     const stage = stageRef.current
@@ -173,21 +158,7 @@ function App() {
   }
 
   return <>
-    <header className="site-navbar">
-      <a className="nav-brand" href="#top" onClick={closeMenu} aria-label="CWM — back to top">CWM</a>
-      <nav className="desktop-nav" aria-label="Main navigation">
-        {navItems.map(([label, href]) => <a key={href} href={href} onClick={(event) => navigateToSection(event, href)}>{label}</a>)}
-      </nav>
-      <button className={`menu-toggle ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-controls="site-index">
-        <span>{menuOpen ? 'Close index' : 'Open index'}</span><i /><i />
-      </button>
-    </header>
-    <div className={`menu-sheet ${menuOpen ? 'is-open' : ''}`} id="site-index" aria-hidden={!menuOpen}>
-      <nav aria-label="Site sections">
-        {navItems.map(([label, href]) => <a key={href} href={href} onClick={(event) => navigateToSection(event, href)}>{label}</a>)}
-      </nav>
-      <p>Buffalo, New York<br />42.8864° N / 78.8784° W</p>
-    </div>
+    <SiteNav home onSectionNavigate={navigateToSection} />
 
     <section className="fold-stage" ref={stageRef} id="top" style={heroStyle}>
       <div className="fold-viewport">
@@ -227,13 +198,8 @@ function App() {
     </section>
 
     <main>
-      <section className="editorial-section work-section" id="work" aria-labelledby="work-title">
+      <section className="editorial-section work-section" id="work" aria-label="Selected work">
         <SectionBanner label="Selected work" />
-        <div className="section-masthead" data-reveal>
-          <h2 id="work-title">Documents from an<br /><em>active archive.</em></h2>
-          <p>Four ongoing projects: a website design agency, a personal control layer, a media pipeline, and the channel that pipeline operates on its own.</p>
-        </div>
-        <PublicationRule />
 
         <article className="project-feature project-viridian" data-reveal>
           <div className="project-copy">
@@ -345,8 +311,8 @@ function App() {
         <SectionBanner label="Building" />
         <div className="building-inner" data-reveal>
           <h2 id="building-title">See what I’ve<br />been <em>building.</em></h2>
-          <p>Follow my projects, experiments, and work in progress on X.</p>
-          <a className="building-link" href="https://x.com/cwm__3" target="_blank" rel="noreferrer"><span>Follow along on X</span><b>@cwm__3</b><i aria-hidden="true">↗</i></a>
+          <p>Projects, experiments, and work in progress, collected in my notes.</p>
+          <a className="building-link" href="/notes/"><span>From the notebook</span><b>Read the notes</b><i aria-hidden="true">→</i></a>
         </div>
       </section>
     </main>
