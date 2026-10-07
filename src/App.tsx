@@ -53,35 +53,6 @@ function HeroCover({ decorative = false }: { decorative?: boolean }) {
   </div>
 }
 
-function ConfuzedMark() {
-  return <svg className="confuzed-mark" viewBox="0 0 120 120" aria-hidden="true">
-    <circle cx="60" cy="64" r="52" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="3 7" opacity=".5" />
-    <circle cx="60" cy="64" r="42" fill="none" stroke="currentColor" strokeWidth="1" opacity=".22" />
-    <path d="M53 20c0-4.2 3.3-6.8 7.3-6.8s7 2.5 7 6.1c0 4.7-6.3 4.7-6.3 9.4" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" />
-    <circle cx="61" cy="33" r="1.8" fill="currentColor" />
-    <rect x="34" y="42" width="52" height="44" rx="15" fill="none" stroke="currentColor" strokeWidth="2.8" />
-    <circle cx="49" cy="60" r="3.4" fill="currentColor" />
-    <path d="M66 61.5c2.1-2.8 5.4-2.8 7.5 0" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" />
-    <path d="M46 74c3.5-4 7-4 10.5 0s7 4 10.5 0" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" />
-    <circle cx="60" cy="106" r="3" fill="currentColor" />
-  </svg>
-}
-
-function Artifact({ kind }: { kind: 'confuzed' }) {
-  if (kind === 'confuzed') {
-    return <div className="artifact artifact-confuzed" aria-label="Identity mark and figures for the Confuzed Guy channel">
-      <span className="artifact-kicker">Channel / autonomous</span>
-      <ConfuzedMark />
-      <div className="confuzed-figures">
-        <div><b>189</b><span>Followers, YouTube + TikTok</span></div>
-        <div><b>0</b><span>Humans in the loop</span></div>
-        <div><b>↑</b><span>Growing, unattended</span></div>
-      </div>
-    </div>
-  }
-  return null
-}
-
 function App() {
   const stageRef = useRef<HTMLElement>(null)
   const [fold, setFold] = useState(0)
@@ -231,10 +202,9 @@ function App() {
             <p>An AI-powered Life OS and personal control center. Every project reports into one surface—status, automation runs, and the small set of switches that actually change what happens next.</p>
             <ul className="tech-list" aria-label="Technologies"><li>React</li><li>Supabase</li><li>Cloudflare Workers</li><li>Claude AI</li></ul>
           </div>
-          <a className="ctrl-screenshot" href="/assets/ctrlpanel-opportunities.png" target="_blank" rel="noreferrer" aria-label="View full-size Ctrlpanel screenshot">
+          <figure className="ctrl-screenshot">
             <img src="/assets/ctrlpanel-opportunities.png" alt="Ctrlpanel Opportunities Agent showing ranked career opportunities, skills to build, and a sidebar for projects, CRM, and personal tools." width="1709" height="957" loading="lazy" />
-          </a>
-          <p className="figure-caption">Ctrlpanel in use: the Opportunities Agent surfaces relevant opportunities and skills to build.</p>
+          </figure>
         </article>
 
         <article className="project-feature project-engine" data-reveal>
@@ -244,17 +214,10 @@ function App() {
             <p>An AI-powered content platform in development for YouTube, X, TikTok, and other social channels. Designed to bring content creation and publishing into one workflow, helping build channels and brands through consistent content and organic marketing.</p>
             <ul className="tech-list" aria-label="Technologies"><li>Python</li><li>ElevenLabs</li><li>Gemini</li><li>FFmpeg</li></ul>
           </div>
-        </article>
-
-        <article className="project-feature project-confuzed" data-reveal>
-          <Artifact kind="confuzed" />
-          <div className="project-copy">
-            <div className="project-status">Live channel</div>
-            <h3>Confuzed Guy</h3>
-            <p>The Content Engine pointed at a real audience. Scripting, voice, edit, thumbnail, and posting all run unattended—189 followers across YouTube and TikTok, fully automated and still climbing.</p>
-            <ul className="tech-list" aria-label="Technologies"><li>YouTube</li><li>TikTok</li><li>Scheduled publishing</li><li>Content Engine</li></ul>
+          <div className="project-inquiry">
+            <p>Have a use case in mind?</p>
+            <a href="mailto:cwm@cwmccann.pro?subject=Content%20Engine%20inquiry">Let’s talk about this tool <span aria-hidden="true">→</span></a>
           </div>
-          <p className="figure-caption">A channel that runs whether or not anyone is watching it.</p>
         </article>
       </section>
 
