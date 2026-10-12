@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties, type MouseEvent, type ReactNode } from 'react'
 import SiteNav from './SiteNav'
+import AcademicPaper from './AcademicPaper'
 
 const courses = [
   ['MTH 141', 'College Calculus I'], ['MTH 142', 'College Calculus II'],
@@ -15,12 +16,25 @@ const courses = [
 ]
 
 const deployments = [
-  { name: 'Viridian', note: 'Parent studio — systems for auto shops', url: 'https://viridian.cwmccann.pro', label: 'viridian.cwmccann.pro' },
-  { name: 'Seneca Falls Self Storage', note: 'Self storage — units, access, enquiries', url: 'https://senecafallsselfstorage.com', label: 'senecafallsselfstorage.com' },
-  { name: 'Buffalo Tailor', note: 'Alterations, bespoke suits, wedding attire', url: 'https://buffalo-tailor.vercel.app', label: 'buffalo-tailor.vercel.app' },
-  { name: 'White Dog Vintage', note: 'Vintage retail and inventory', url: 'https://white-dog-vintage.vercel.app', label: 'white-dog-vintage.vercel.app' },
-  { name: 'WQIS', note: 'Welding qualification & inspection services', url: 'https://wqis.vercel.app', label: 'wqis.vercel.app' },
-  { name: 'Underhill Farms', note: 'Country inn and farm stay, Kansas', url: 'https://underhill-farms-country-inn.vercel.app', label: 'underhill-farms-country-inn.vercel.app' },
+  { name: 'Caffè Aroma', note: 'Café & cocktail bar · Buffalo, NY', url: 'https://caffearoma.cwmccann.pro', label: 'caffearoma.cwmccann.pro' },
+  { name: 'Buffalo Tailor', note: 'Master tailoring · Buffalo, NY', url: 'https://buffalo-tailor.vercel.app', label: 'buffalo-tailor.vercel.app' },
+  { name: 'Martin & Sons Roofing', note: 'Roof repair · Fort Worth, TX', url: 'https://onyx.cwmccann.pro/#work', label: 'onyx.cwmccann.pro/#work' },
+  { name: 'Underhill Farms Country Inn', note: 'Bed & breakfast · Moundridge, KS', url: 'https://underhill-farms-country-inn.vercel.app', label: 'underhill-farms-country-inn.vercel.app' },
+  { name: 'CFW Electric', note: 'Electrical contractor · Derby, NY', url: 'https://onyx.cwmccann.pro/#work', label: 'onyx.cwmccann.pro/#work' },
+  { name: 'Seneca Falls Self Storage', note: 'Self storage · Seneca Falls, NY', url: 'https://senecafallsselfstorage.com', label: 'senecafallsselfstorage.com' },
+  { name: 'White Dog Vintage', note: 'Vintage boutique · Buffalo, NY', url: 'https://white-dog-vintage.vercel.app', label: 'white-dog-vintage.vercel.app' },
+  { name: 'West Wind Vineyards', note: 'Vineyard · Fredonia, NY', url: 'https://onyx.cwmccann.pro/#work', label: 'onyx.cwmccann.pro/#work' },
+]
+
+const otherProjects = [
+  {
+    name: 'GPS Bridge',
+    description: 'Shares an iPhone’s GPS with an Android tablet over Wi-Fi so Google Maps, Waze, and other navigation apps can follow your location. Turns a tablet without built-in GPS into an in-car navigation screen.',
+  },
+  {
+    name: 'Infinia Car Launcher',
+    description: 'Turns an Android tablet or head unit into a car dashboard with navigation directions, music controls, weather, trip information, and favorite apps on the home screen. Includes customizable themes and automatic day and night modes.',
+  },
 ]
 
 function PublicationRule({ label }: { label?: string }) {
@@ -171,6 +185,7 @@ function App() {
     <main>
       <section className="editorial-section work-section" id="work" aria-label="Selected work">
         <SectionBanner label="Selected work" />
+        <h2 className="work-group-heading flagship-heading">Flagship projects</h2>
 
         <article className="project-feature project-viridian" data-reveal>
           <div className="project-copy">
@@ -178,13 +193,12 @@ function App() {
             <h3><a href="https://onyx.cwmccann.pro" target="_blank" rel="noreferrer">Onyx Studios</a></h3>
             <p>My website design agency, helping small businesses strengthen their online presence with thoughtfully designed websites and practical digital tools.</p>
             <a className="project-site-link" href="https://onyx.cwmccann.pro" target="_blank" rel="noreferrer">onyx.cwmccann.pro <span aria-hidden="true">↗</span></a>
-            <ul className="tech-list" aria-label="Technologies"><li>TanStack Start</li><li>React</li><li>Cloudflare</li><li>CRM</li><li>Automation</li></ul>
           </div>
           <div className="deploy-index">
-            <PublicationRule label="Selected deployments" />
+            <PublicationRule label="Sample work" />
             <div className="deploy-list">
               {deployments.map((entry) => (
-                <a key={entry.url} href={entry.url} target="_blank" rel="noreferrer">
+                <a key={entry.name} href={entry.url} target="_blank" rel="noreferrer">
                   <b>{entry.name}</b>
                   <span className="deploy-note">{entry.note}</span>
                   <span className="deploy-url">{entry.label}</span>
@@ -200,7 +214,6 @@ function App() {
             <div className="project-status">Personal system</div>
             <h3>Ctrlpanel</h3>
             <p>An AI-powered Life OS and personal control center. Every project reports into one surface—status, automation runs, and the small set of switches that actually change what happens next.</p>
-            <ul className="tech-list" aria-label="Technologies"><li>React</li><li>Supabase</li><li>Cloudflare Workers</li><li>Claude AI</li></ul>
           </div>
           <figure className="ctrl-screenshot">
             <img src="/assets/ctrlpanel-opportunities.png" alt="Ctrlpanel Opportunities Agent showing ranked career opportunities, skills to build, and a sidebar for projects, CRM, and personal tools." width="1709" height="957" loading="lazy" />
@@ -212,13 +225,24 @@ function App() {
             <div className="project-status">Still developing</div>
             <h3>Content Engine</h3>
             <p>An AI-powered content platform in development for YouTube, X, TikTok, and other social channels. Designed to bring content creation and publishing into one workflow, helping build channels and brands through consistent content and organic marketing.</p>
-            <ul className="tech-list" aria-label="Technologies"><li>Python</li><li>ElevenLabs</li><li>Gemini</li><li>FFmpeg</li></ul>
           </div>
           <div className="project-inquiry">
             <p>Have a use case in mind?</p>
             <a href="mailto:cwm@cwmccann.pro?subject=Content%20Engine%20inquiry">Let’s talk about this tool <span aria-hidden="true">→</span></a>
           </div>
         </article>
+
+        <section className="other-projects" aria-labelledby="other-projects-title" data-reveal>
+          <h2 className="work-group-heading" id="other-projects-title">Other projects</h2>
+          <ul className="other-project-list">
+            {otherProjects.map((project) => (
+              <li key={project.name}>
+                <h3>{project.name}</h3>
+                <p>{project.description}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
       </section>
 
       <section className="editorial-section archive-section" id="experience" aria-labelledby="experience-title">
@@ -257,8 +281,10 @@ function App() {
           </details>
         </div>
 
-        <div className="continued-study" data-reveal>
-          <div><span>CONTINUED STUDY</span><p>Learning remains part of the work, not a footnote after it.</p></div>
+        <AcademicPaper />
+
+        <div className="continued-study" data-reveal role="group" aria-labelledby="certifications-title">
+          <div><span>CONTINUED STUDY</span><h3 id="certifications-title">Certifications</h3><p>Courses and credentials I’ve earned beyond the degree.</p></div>
           <ul>
             <li><b>Claude Academy: Claude 101</b><span>Anthropic</span><em>Completed · Oct 2026</em></li>
             <li><b>AI Agents and LLM Automation</b><span>Udemy</span><em>Completed · Jul 2026</em></li>
